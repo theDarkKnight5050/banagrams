@@ -1,0 +1,653 @@
+ * {-webkit-font-smoothing: antialiased;}
+
+ :root {
+  --main-background-color: #4472C4;
+  --main-content-color: #F2D966;
+  --main-body-color: #E3EFFF;
+  --main-content-outline-color: #BDB76B;
+  --main-text-color: #2a1f1b;
+  --main-bot-color: #f5dada;
+}
+
+ body {
+     height: 90vh;
+     margin-top: 6%;
+     padding: 0px;
+     font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+     background: var(--main-body-color);
+ }
+
+
+
+ head {
+     margin: 0px;
+ }
+
+/*navbar*/
+.top {
+  display: grid;
+  background: var(--main-background-color);
+  text-align: center;   
+}
+
+.username {
+  display: grid;
+  grid-template-columns: 70% 30%;
+  padding: 8%;
+}
+
+.username-btn {
+  margin-left: 5%;
+  border-color: var(--main-content-color);
+  font-size: 2vh;
+  color: var(--main-content-color);
+}
+
+.username-input {
+  color: var(--main-content-color);
+  background: none;
+  border: none;
+  box-shadow: none;
+  border-radius: 0px;
+  border-bottom: solid var(--main-content-color) 1px;
+  font-weight: normal;
+}
+
+.welcome { 
+  margin-top:4%;
+  font-size: 1.5vmin;
+  color: var(--main-content-color);
+}
+
+.start-button {
+     padding-top: 1%;
+     background: var(--main-background-color);
+     color: var(--main-content-color);
+     width: 20%;
+     min-width: 80px;
+     height: 15%;
+     font-size: calc(0.7vh + 0.7vw);
+     margin-bottom: 4%;
+}
+/*Before Joining Game*/
+.intro-message {
+     font-size: 3.3vh;
+     font-weight: bold;
+     text-align: center;
+     width: 70%;
+     margin-left:15%;
+     color: var(--main-background-color);
+     margin-bottom: 3%;    
+     margin-top: 3%;  
+}
+.roompage-grid {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    margin-left:10%;
+    text-align: center;
+
+}
+.left-side-roompage {
+    border: solid 2px var(--main-background-color);
+    margin-right: 5%;
+    border-radius: 10px;
+}
+.right-side-roompage {
+    margin-left: 10%;
+}
+.copy-button {
+    margin-left: 1vw;
+    background: none;
+    color: var(--main-background-color);
+    border: solid 1px var(--main-background-color);
+}
+.game-link {
+     font-size: calc(0.65vh + 0.65vw);
+     width: 90%;
+     text-align: left;
+     margin-left:10%;
+
+}
+.black-text {
+    color: black;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 2.0vh;
+    text-align: left;
+    margin-left:10%;
+    margin-top: 0%;
+
+}
+
+.login {
+     display: inline-block;
+     text-align: center;
+     width: 100%;
+     height: 10%;
+     color: var(--main-background-color);
+     font-size: 2.3vh;
+     margin-top: 2%;
+     margin-bottom: 2%;
+}
+
+ .join-button {
+     background: var(--main-background-color);
+     color: var(--main-content-color);
+     font-size: calc(0.8vh + 0.8vw);
+     min-width: 60px;
+     min-height: 4vh;
+ }
+
+ .join-message {
+    font-size: 1.2vw;
+    font-weight: normal;
+    text-align: left;
+    margin-left: 10%;
+    width: 85%;
+ }
+
+ .name {
+     background: var(--main-content-color);
+     font-size: calc(0.8vh + 0.8vw);
+ }
+
+ .automatic-login {
+    margin-top: 0.5%;
+    font-size: calc(0.5vh + 0.5vw);
+    margin-left: 14%;
+ }
+ .login-checkbox {
+    transform: scale(0.8);
+ }
+
+ .players-list {
+    width: 85%;
+    height: 100%;
+    border: solid 2px var(--main-background-color);
+    border-radius: 10px;
+    padding: 2%;
+ }
+
+.players-list-title {
+ font-size: calc(1.2vh + 1.2vw);
+ margin-bottom: 5%;
+ font-style: italic;
+ font-weight: bold;
+ color: var(--main-background-color);
+ text-align: center;
+}
+
+.players-list-word {
+    font-size: calc(0.8vh + 0.8vw);
+}
+
+.joined-grid{
+    display: grid;
+    grid-template-columns: 33% 33% 33%
+}
+
+/*slider*/
+.diff-slider-container {
+    display: none;
+    margin-left: 35%;
+    padding: 3%;
+    background: var(--main-content-color);
+}
+.diff-slider-obj {
+    background: var(--main-text-color);
+}
+input[type='range'] {
+    background: #434343;
+    color: #13bba4;
+}
+.bot-diff-title {
+    margin-left:0%;
+    color: var(--main-background-color);
+    font-weight: bold;
+    margin-right: 1%;
+}
+
+.tooltip {
+    position: relative;
+    height: 30px;
+    width: 35px;
+    background: none;
+
+}
+.tooltip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    font-size: 10px;
+    margin-right:10px;
+    padding-right: 10px;
+}
+
+/*game body*/
+ .big-grid {
+     display: grid;
+     height: 100%;
+     grid-template-columns: 45% 55%;
+     width: 100vw;
+ }
+
+
+
+/*Player Words and Scores*/
+
+
+.players {
+     display: grid;
+     grid-template-columns: repeat(3, 30%);
+     height:95%;
+     padding-right: 10%;
+ }
+ 
+.player-info {
+     border-style: solid;
+     border-color: var(--main-content-outline-color);
+     border-width: 5px;
+     border-radius: 25px;
+     margin: 4%;
+     padding: 3%;
+     background: var(--main-content-color);
+     height: 95%;
+ }
+ 
+.player-info-name {
+     font-weight: bold;
+     text-align: center;
+ }
+
+
+ .words-container {
+     overflow-y:auto;
+     height: 80%;
+     display:scroll;
+ }
+
+ .player-word {
+     margin: 5px;
+     background-image: url(/static/images/grit-fs8.png);
+     color: var(--main-text-color);
+     text-align: center;
+     border: solid black 1px;
+     border-radius: 4px;
+     background: var(--main-content-color);
+
+ }
+ .bot-name {
+    background: var(--main-bot-color);
+    color: var(--main-text-color);
+ }
+
+/*Game Area */
+.game-area {
+     width: 100%;
+     height: 100%;
+ }
+
+ .right-side {
+     display: grid;
+     grid-template-rows:60% 30%;
+     height:100%;
+     max-width: 100%;
+ }
+ 
+ .tiles {
+     display: grid;
+     grid-template-columns: repeat(14, 7%);
+     grid-template-rows: repeat(7, 14%);
+     width:100%;
+     max-width: 55vw;
+     max-height: 60vh;
+ }
+ 
+ .tile {
+     width: 80%;
+     height: 70%;
+     display: inline-block;
+     background: var(--main-content-color);
+     background-image: url(/static/images/grit-fs8.png);
+     color: var(--main-text-color);
+     border-radius: 4px;
+     font-size: 3.3vmin;
+     font-weight: 400;
+     margin: 1% 1%;
+     padding-top: 1%;
+     text-align: center;
+     cursor: default;
+     font-family: "Spinnaker", Arial, sans-serif;
+     text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.9), 0 -1px 1px rgba(255, 255, 255, 0.2);
+     text-transform: uppercase;
+     box-shadow: 1px 5px 5px rgba(0, 0, 0, 0.8), inset 3px 0 2px rgba(255, 255, 255, 0.4), inset 0 3px 0px rgba(255, 255, 255, 0.5), inset -2px -3px 0px rgba(143, 128, 82, 0.6);
+ }
+
+ .logo-tile {
+  width: 7vmin;
+  height: 7vmin;
+  font-size: 4.5vmin;
+  margin: 0%;
+  padding-top:0%;
+  cursor: pointer;
+}
+ 
+ .tile-taken {
+     background: var(--main-body-color);
+     width: 60px;
+     height: 60px;
+     margin: 10px 3px;
+ }
+ 
+ /*Notifications Corner*/
+ .notifications {
+     height: 100%;
+     border-style: solid;
+     border-color: var(--main-background-color);
+     border-width: 2px;
+     border-bottom-color: #999999;
+     border-bottom-width: 1px;
+     overflow-y: scroll;
+     display: inline-block;
+ }
+ 
+ .fail-notification {
+    color: #666666;
+ }
+ 
+ .snatch-notification {
+     color: blue;
+ }
+ 
+ .steal-notification {
+     color: green;
+ }
+ 
+ .steal-own-notification {
+     color: red;
+ }
+ 
+ .leave-enter-notification {
+     color: brown;
+ }
+ .chat-notification {
+ }
+ .word-notification-container {
+     display: grid;
+     grid-template-columns: 35% 65%;
+     /*margin-top: 2%;*/
+     margin-left: 3%;
+     margin-right: 4%;
+ }
+ 
+ .notification-container {
+     display: grid;
+     grid-template-rows: 20% 65% 15%;
+     height: 20vh;
+     margin-left: 15%;
+     width: 85%;
+ }
+ 
+ .notification-title {
+     text-align: center;
+     background: var(--main-background-color);
+     color: white;
+     padding: 0%;
+     font-size: 2.5vh;
+     font-color: bold;
+     padding-top: 0.5%;
+
+ }
+ 
+ .notification-message {
+     background: #dddddd;
+     padding-right: 5px;
+     padding-left: 5px;
+     padding-top: 2px;
+     padding-bottom: 2px;
+     border-bottom-style: solid;
+     border-bottom-width: 1px;
+     border-bottom-color: #888888;
+     font-size: 1.7vh;
+     min-width: 100%;
+ }
+
+ .chat {
+    width: 100%;
+ }
+ .chat-field {
+    width: 100%;
+    border:solid 2px var(--main-background-color);
+    border-top-color: #999999;
+    border-top-width: 1px;
+    font-size: 1.9vh;
+    padding-left: 1%;
+ }
+ 
+ /*Message for saying whos turn it is*/
+ .turn-message {
+     font-size: 2.7vmin;
+     font-weight:bold;
+     color: var(--main-background-color);
+     text-align: center;
+     margin-top:3.5%;
+ }
+ 
+
+ .game-panel {
+     display: grid;
+     grid-template-columns: 50% 50%;
+     margin-bottom:2%;
+     text-align: left;
+ }
+
+ .right-align {
+     text-align: right;
+ }
+
+ 
+
+ /*Endgame Process*/
+ .endgame {
+     margin-left: 40%;
+ }
+ .end-button {
+     font-size: 20px;
+     color: var(--main-background-color);
+     background-color: var(--main-content-color);
+     border-radius: 10px;
+     border: solid black;
+     font-weight: bold;
+
+ }
+ .endgame-modal-content {
+     background-color: var(--main-content-color);
+     color: var(--main-background-color);
+ }
+ .veto-modal-content {
+     background-color: var(--main-content-color);
+     color: var(--main-background-color);
+ }
+ .veto-modal-title {
+    font-size: 1.8vh;
+ }
+
+ .veto-modal-btn {
+     background-color: var(--main-background-color);
+     color: var(--main-content-color);
+ }
+
+ .modal-message {
+    padding: 5%;
+ }
+
+
+
+/*Word Input*/
+
+ .word-input-wrapper {
+    display: grid;
+    grid-template-rows: 45% 30%;
+    margin-right: 5%;
+    margin-top:5%;
+ }
+ .privacy-message {
+    font-size: 1.3vh;
+ }
+ 
+ input[id="privacy-check"] {
+    background-color: var(--main-background-color);
+ }
+
+ .word-input {
+     font-size: 2vh;
+     font-weight: bold;
+ }
+ 
+ input[id="word-field"] {
+     font-size: 2vh;
+     border: solid black;
+     width: 80%;
+ }
+
+ .click-reminder {
+    padding-right: 20%;
+    font-size: 1.7vh;
+    font-weight: bold;
+    color: red;
+ }
+
+ /*Options for Ambiguity*/
+ .option-modal {
+    margin-top: 15%;
+ }
+ .option-modal-sm {
+    width: 50%;
+ }
+ .option-modal-content {
+    background-color: var(--main-body-color);
+    width: 100%;
+ }
+ .steal-options {
+    display: grid;
+    grid-template-rows: 100%
+    width: 100%;
+    padding: 10%;
+ }
+
+ .option-container {
+    background: #bbbbff;
+    margin: 1%;
+    margin-bottom:2%;
+    padding: 3%;
+    border-color: var(--main-background-color);
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 5px;
+    z-index: 1010
+ }
+ .option-opponent-name {
+    color: var(--main-background-color);
+ }
+ .option-word {
+    height: 100%;
+    font-size: 2vh;
+    padding: 1%;
+ }
+ .option-modal-btn {
+    background: var(--main-background-color);
+    color: var(--main-content-color);
+    font-weight: bold;
+ }
+
+
+/*Tutorial*/
+.video-container{
+    position: fixed;
+    top:10%;
+    left:5%;
+    z-index: -1;
+    height: 90%;
+    width: 90%;
+}
+.tutorial-video-container {
+    position: fixed;
+    top:0;
+    left:0;
+    background: var(--main-body-color);
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+}
+
+.video {
+    max-width: 95%;
+    max-height: 95%;
+    min-width: 95%;
+    min-height: 95%;
+    border-color: var(--main-text-color);
+    border-width: 5px;
+    border-style: solid;
+}
+
+
+.skip-tutorial-link {
+    position: fixed;
+    top:2%;
+    left: 2%;
+    z-index: 1001;
+    color: red;
+    font-size:2.5vh;
+    text-decoration: underline;
+}
+.skip-tutorial-link:hover {
+    color: var(--main-background-color);
+    cursor: pointer;
+}
+
+.view-tutorial {
+    text-decoration: underline;
+    font-size:2.2vh;
+    color: var(--main-background-color);
+    font-weight: bold;
+    font-style: normal;
+    margin-left: 10%;
+    margin-top: 1.5%;
+    margin-bottom: 0%;
+}
+.view-tutorial:hover {
+    color: red;
+    cursor: pointer;
+}
+
+.possibilities-modal-content {
+    background: var(--main-body-color);
+}
+.possibilities-options {
+    display: grid;
+    grid-template-columns: 100%;
+    max-height: 50vh;
+    overflow-y: scroll;
+}
+.possibility {
+    margin: 2%;
+    padding: 2%;
+    padding-left: 20%;
+    font-weight: bold;
+    font-size: calc(0.8vh + 0.8vw);
+    border: 1px solid black;
+    border-radius: 3px;
+    background: #bbbbff;
+}
+.possibility-word {
+    padding: 1%;
+}
+.show-possibilities-button {
+    font-size: calc(0.8vh + 0.8vw);
+    border: none
+    color: var(--main-background-color);
+    text-decoration: underline;
+    background: none;
+    font-weight: bold;
+}
+
