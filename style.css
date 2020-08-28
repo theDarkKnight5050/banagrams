@@ -321,7 +321,8 @@ input[type='range'] {
      text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.9), 0 -1px 1px rgba(255, 255, 255, 0.2);
      text-transform: uppercase;
      box-shadow: 1px 5px 5px rgba(0, 0, 0, 0.8), inset 3px 0 2px rgba(255, 255, 255, 0.4), inset 0 3px 0px rgba(255, 255, 255, 0.5), inset -2px -3px 0px rgba(143, 128, 82, 0.6);
- }
+     cursor: pointer;
+}
 
  .logo-tile {
   width: 7vmin;
@@ -530,7 +531,7 @@ input[type='range'] {
  }
  .steal-options {
     display: grid;
-    grid-template-rows: 100%
+    grid-template-rows: 100%;
     width: 100%;
     padding: 10%;
  }
@@ -644,7 +645,7 @@ input[type='range'] {
 }
 .show-possibilities-button {
     font-size: calc(0.8vh + 0.8vw);
-    border: none
+    border: none;
     color: var(--main-background-color);
     text-decoration: underline;
     background: none;

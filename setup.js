@@ -16,3 +16,14 @@ for (let i = 0; i < players; i++){
     newPlayer.appendChild(wordList);
     playerArea.appendChild(newPlayer);
 }
+
+var tileArea = document.getElementById("tiles");
+for (let i = 0; i < 7; i++){
+    for (let j = 0; j < 14; j++){
+        var tile = document.createElement('div');
+        tile.className = "tile";
+        tile.id = i + "-" + j;
+        tile.innerHTML = "~";
+        tileArea.appendChild(tile);
+    }
+}
