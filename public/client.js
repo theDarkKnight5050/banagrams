@@ -1,5 +1,5 @@
 var player;
-var words;
+var words = [];
 var socket = io();
 var tiles = []
 
@@ -28,7 +28,7 @@ function setPlayers(players) {
     
         var nam = document.createElement('div');
         nam.className = "player-info-name";
-        nam.innerHTML = player
+        nam.innerHTML = player.name
     
         var wordList = document.createElement('div');
         wordList.className = "words-container";
@@ -43,7 +43,6 @@ function setup(){
     document.getElementById("add-user").onclick = function() {
         socket.emit('newPlayer', document.getElementById("username").value);
         player = document.getElementById("username").value;
-        console.log(player);
         $("#welcome").modal('hide');
     };
     
@@ -53,8 +52,8 @@ function setup(){
 
     socket.on('turn', function(currPlayer) {
         document.getElementById("start-game").style.visibility = "hidden";
-        document.getElementById("status").innerHTML = currPlayer + "'s turn";
-        if(player == currPlayer) {
+        document.getElementById("status").innerHTML = currPlayer.name + "'s turn";
+        if(player == currPlayer.name) {
             tiles.forEach(tile =>{
                 tile.onclick = function() {
                     indices = tile.id.split('-');
@@ -71,9 +70,24 @@ function setup(){
         tiles[flipTile.index[0] * 7 + flipTile.index[1]].innerHTML = flipTile.char;
     });
 
+    socket.on('snatch', function(game_state) {
+        setPlayers(game_state.players);
+    })
+
     document.getElementById("start-game").onclick = function() {
         socket.emit('start', true);
     };
+
+    document.getElementById("word-field").addEventListener("keyup", function(event){
+        event.preventDefault();
+        if(event.keyCode == 13){
+            socket.emit('wordAttempt', {
+                by: player,
+                word: document.getElementById("word-field").value
+            });
+            document.getElementById("word-field").value = "";
+        }
+    });
 
     setPlayArea();
 }
