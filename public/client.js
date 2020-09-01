@@ -1,4 +1,4 @@
-var player;
+var playerName;
 var words = [];
 var socket = io();
 var tiles = []
@@ -25,6 +25,10 @@ function setPlayers(players) {
     players.forEach(player => {
         var newPlayer = document.createElement('div');
         newPlayer.className = "player-info";
+        if (player.name == playerName) {
+            newPlayer.style.background = "#f78ddE";
+            newPlayer.style.borderColor = "#df35b7";
+        }
     
         var nam = document.createElement('div');
         nam.className = "player-info-name";
@@ -32,6 +36,10 @@ function setPlayers(players) {
     
         var wordList = document.createElement('div');
         wordList.className = "words-container";
+        console.log(player.words);
+        player.words.forEach(word =>{
+            wordList.innerHTML += "<p>" + word + "</p>";
+        });
     
         newPlayer.appendChild(nam);
         newPlayer.appendChild(wordList);
@@ -55,24 +63,36 @@ function setup(){
         document.getElementById("status").innerHTML = currPlayer.name + "'s turn";
         if(player == currPlayer.name) {
             tiles.forEach(tile =>{
-                tile.onclick = function() {
-                    indices = tile.id.split('-');
-                    socket.emit('flipped', [parseInt(indices[0]), parseInt(indices[1])]);
-                    tiles.forEach(tile =>{
-                        tile.onclick = null;
-                    });
-                };
+                if (tile.className == "tile") {
+                    tile.onclick = function() {
+                        indices = tile.id.split('-');
+                        socket.emit('flipped', [parseInt(indices[0]), parseInt(indices[1])]);
+                        tiles.forEach(tile =>{
+                            tile.onclick = null;
+                        });
+                    };
+                }
             });
         }
     });
 
     socket.on('flipped', function(flipTile) {
-        tiles[flipTile.index[0] * 7 + flipTile.index[1]].innerHTML = flipTile.char;
+        tiles[flipTile.index[0] * 14 + flipTile.index[1]].innerHTML = flipTile.char;
     });
 
     socket.on('snatch', function(game_state) {
         setPlayers(game_state.players);
-    })
+    });
+
+    socket.on('taken', function(letter) {
+        tiles.forEach(tile => {
+            if(tile.innerHTML == letter) {
+                tile.className = "tile-taken";
+                console.log("taken");
+                return;
+            }
+        });
+    });
 
     document.getElementById("start-game").onclick = function() {
         socket.emit('start', true);

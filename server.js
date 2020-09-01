@@ -49,6 +49,11 @@ io.on('connection', socket => {
 
     socket.on('wordAttempt', attempt =>{
         if(possible(attempt.word)) {
+            game_state.players.forEach(player =>{
+                if (player.name == attempt.by) {
+                    player.words.push(attempt.word);
+                }
+            });
             io.emit('snatch', game_state);
         }
     });
@@ -72,6 +77,7 @@ function exists(word) {
 
 function possible(word) {
     if (word.length < 3 || !exists(word)){
+        console.log("fail snatch 1");
         return false;
     }
     wordAttempt = make(word.split(""));
@@ -84,8 +90,10 @@ function possible(word) {
                 }
             }
         });
+        console.log("successful snatch");
         return true;
     }
+    console.log("fail snatch 2")
     return false;
 }
 
@@ -93,6 +101,9 @@ function make(attempt) {
     var recurSnatch = [];
 
     if (isSubset(game_state.availLetters, attempt)) {
+        for (let letter of attempt) {
+            io.emit("taken", letter);
+        }
         game_state.availLetters = subtract(attempt, game_state.availLetters);
         return {
             works: true,
