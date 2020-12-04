@@ -1,2 +1,2 @@
-# banagrams
+# bananagrams
 Multilingual Banagrams!
