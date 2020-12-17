@@ -64,6 +64,7 @@ function advance(){
     game_state.current_player = (game_state.current_player + 1) % game_state.players.length;
 }
 
+//checks wiktionary api if word is a word in any language
 function exists(word) {
     url = "https://cors-anywhere.herokuapp.com/https://en.wiktionary.org/w/api.php?action=query&format=json&titles=";
     real = true;
@@ -75,6 +76,9 @@ function exists(word) {
     return real;
 }
 
+//Checks if word is a valid word in any language. If so, calls make to check for a valid snatch
+//If valid, for each snatched word, finds target player and takes their word away, or does nothing 
+//if it came from available letters, else failing the snatch
 function possible(word) {
     if (word.length < 3 || !exists(word)){
         console.log("fail snatch 1");
@@ -97,6 +101,18 @@ function possible(word) {
     return false;
 }
 
+//Issue:? Chooses first encounter by default. Needs better resolution when multiple
+//Ways to snatch exist?
+
+//Issue: Allows direct snatching of words (need not be anagrams)
+
+//Issue: Implement restrictions (common etymology etc.) or assume you're on a call to deliberate?
+
+//Given an attempted word, checks pile and other players' words for requisite letters
+//First checks set of available letters
+//Recursively works from other players' words which are a subset of the attempt, checking on
+//remainder. Pushes each snatched word onto snatch in return
+//Gives attempting player the word if successful
 function make(attempt) {
     var recurSnatch = [];
 
@@ -135,6 +151,9 @@ function make(attempt) {
     };
 }
 
+//Linear scan through subset items to find mismatch with superset
+//Idea: sort each first and then do linear time comparison? It's O(nlogn + mlogm) as opposed to O(mn)
+//Maybe useless but since this is called so often
 function isSubset(sup, sub) {
     for (let item of sub) {
         if (!sup.includes(item)) {
@@ -144,6 +163,7 @@ function isSubset(sup, sub) {
     return true;
 }
 
+//Removes elements of ths from that
 function subtract(ths, that) {
     for (let item of ths) {
         let ind = that.indexOf(item);
