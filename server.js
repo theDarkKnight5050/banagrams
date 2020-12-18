@@ -67,12 +67,15 @@ function advance(){
 //checks wiktionary api if word is a word in any language
 //Issue: fake words get accepted
 function exists(word) {
-    url = "https://cors-anywhere.herokuapp.com/https://en.wiktionary.org/w/api.php?action=query&format=json&titles=";
-    real = true;
-    $.getJSON(url + word, function(data) {
-        console.log(data)
-        if ("-1" in data.query.pages){
-            real = false;
+    let url = "https://cors-anywhere.herokuapp.com/https://en.wiktionary.org/w/api.php?action=query&format=json&titles=";
+    let real = true;
+    $.ajax({
+        url: url+word,
+        datatype: 'json',
+        async: false,
+        success: function(data) {
+            real = !data.query.pages.hasOwnProperty("-1");
+            console.log(real);
         }
     });
     return real;
@@ -83,11 +86,12 @@ function exists(word) {
 //if it came from available letters, else failing the snatch
 //ISSUE: if player has more than one copy of snatched word, it grabs both
 function possible(word) {
-    if (word.length < 3 || !exists(word)){
+    console.log(exists(word))
+    if (word.length < 4 || !exists(word)){
         console.log("fail snatch 1");
         return false;
     }
-    wordAttempt = make(word.split(""));
+    let wordAttempt = make(word.split(""));
     if(wordAttempt.works) {
         wordAttempt.snatch.forEach(snatch =>{
             for (let player of game_state.players) {
@@ -133,7 +137,7 @@ function make(attempt) {
     for (let player of game_state.players) {
         for (let playerWord of player.words) {
             if(isSubset(attempt, playerWord)) {
-                recur = make(subtract(playerWord.split(""), attempt))
+                let recur = make(subtract(playerWord.split(""), attempt))
                 if(recur.works) {
                     recurSnatch = recur.snatch
                     recurSnatch.push({
