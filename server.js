@@ -79,6 +79,7 @@ function exists(word) {
 //Checks if word is a valid word in any language. If so, calls make to check for a valid snatch
 //If valid, for each snatched word, finds target player and takes their word away, or does nothing 
 //if it came from available letters, else failing the snatch
+//ISSUE: if player has more than one copy of snatched word, it grabs both
 function possible(word) {
     if (word.length < 3 || !exists(word)){
         console.log("fail snatch 1");
@@ -104,7 +105,7 @@ function possible(word) {
 //Issue:? Chooses first encounter by default. Needs better resolution when multiple
 //Ways to snatch exist?
 
-//Issue: Allows direct snatching of words (need not be anagrams)
+//Issue: Allows direct snatching of words (need not be anagrams) AND anagrams
 
 //Issue: Implement restrictions (common etymology etc.) or assume you're on a call to deliberate?
 
@@ -171,3 +172,5 @@ function subtract(ths, that) {
     }
     return that;
 }
+
+//TODO: Ending, scoring

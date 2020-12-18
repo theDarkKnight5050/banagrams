@@ -3,6 +3,7 @@ var words = [];
 var socket = io();
 var tiles = []
 
+//Adds blank tiles to play area
 function setPlayArea(){
     var tileArea = document.getElementById("tiles");
     for (let i = 0; i < 7; i++){
@@ -17,6 +18,9 @@ function setPlayArea(){
     }
 }
 
+
+//Adds players to player area, gives client special color in their own display
+//Issue: Every time a new player is added it resets the whole thing
 function setPlayers(players) {
     var playerArea = document.getElementById("players");
     while (playerArea.firstChild) {
@@ -46,7 +50,9 @@ function setPlayers(players) {
         playerArea.appendChild(newPlayer);
     });
 }
- 
+
+//newPlayers event?
+//Should setPlayArea come before everything else?
 function setup(){
     document.getElementById("add-user").onclick = function() {
         socket.emit('newPlayer', document.getElementById("username").value);
@@ -80,6 +86,7 @@ function setup(){
         tiles[flipTile.index[0] * 14 + flipTile.index[1]].innerHTML = flipTile.char;
     });
 
+    //Why? Maybe update words only would be better?
     socket.on('snatch', function(game_state) {
         setPlayers(game_state.players);
     });
