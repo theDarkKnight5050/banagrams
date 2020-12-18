@@ -65,10 +65,12 @@ function advance(){
 }
 
 //checks wiktionary api if word is a word in any language
+//Issue: fake words get accepted
 function exists(word) {
     url = "https://cors-anywhere.herokuapp.com/https://en.wiktionary.org/w/api.php?action=query&format=json&titles=";
     real = true;
     $.getJSON(url + word, function(data) {
+        console.log(data)
         if ("-1" in data.query.pages){
             real = false;
         }
@@ -98,7 +100,7 @@ function possible(word) {
         console.log("successful snatch");
         return true;
     }
-    console.log("fail snatch 2")
+    console.log("fail snatch 2") //ISSUE: grabbing words breaks when you take a word while many letters on the board. does it grab every copy of available letters?
     return false;
 }
 
@@ -117,9 +119,9 @@ function possible(word) {
 function make(attempt) {
     var recurSnatch = [];
 
-    if (isSubset(game_state.availLetters, attempt)) {
-        for (let letter of attempt) {
-            io.emit("taken", letter);
+    if (isSubset(game_state.availLetters, attempt)) { //ISSUE: taking word from pot removes ALL copies of relevant letters, sometimes...
+        for (let letter of attempt) {                 //ISSUE: some letters on pot not actually available
+            io.emit("taken", letter);                 //ISSUE: doesn't allow combining words/adding sometimes (has to do with hidden letters)
         }
         game_state.availLetters = subtract(attempt, game_state.availLetters);
         return {

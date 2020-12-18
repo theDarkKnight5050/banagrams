@@ -21,6 +21,9 @@ function setPlayArea(){
 
 //Adds players to player area, gives client special color in their own display
 //Issue: Every time a new player is added it resets the whole thing
+
+//Issue? Word box gets longer for every word added
+//Issue: refreshing page doesn't restart game, but freezes me out of previous player
 function setPlayers(players) {
     var playerArea = document.getElementById("players");
     while (playerArea.firstChild) {
@@ -53,6 +56,7 @@ function setPlayers(players) {
 
 //newPlayers event?
 //Should setPlayArea come before everything else?
+//ISSUE tiles can be clicked multiple times, and each time a new letter faces up
 function setup(){
     document.getElementById("add-user").onclick = function() {
         socket.emit('newPlayer', document.getElementById("username").value);
@@ -91,6 +95,7 @@ function setup(){
         setPlayers(game_state.players);
     });
 
+    //small letter still there after taking, and box is bigger than tile before
     socket.on('taken', function(letter) {
         tiles.forEach(tile => {
             if(tile.innerHTML == letter) {
