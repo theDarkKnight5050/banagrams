@@ -12,6 +12,7 @@ function setPlayArea(){
             tile.className = "tile";
             tile.id = i + "-" + j;
             tile.innerHTML = "~";
+            tile.unflipped = true;
             tileArea.appendChild(tile);
             tiles.push(tile);
         }
@@ -56,7 +57,6 @@ function setPlayers(players) {
 
 //newPlayers event?
 //Should setPlayArea come before everything else?
-//ISSUE tiles can be clicked multiple times, and each time a new letter faces up
 function setup(){
     document.getElementById("add-user").onclick = function() {
         socket.emit('newPlayer', document.getElementById("username").value);
@@ -73,7 +73,7 @@ function setup(){
         document.getElementById("status").innerHTML = currPlayer.name + "'s turn";
         if(player == currPlayer.name) {
             tiles.forEach(tile =>{
-                if (tile.className == "tile") {
+                if (tile.className == "tile" && tile.unflipped) {
                     tile.onclick = function() {
                         indices = tile.id.split('-');
                         socket.emit('flipped', [parseInt(indices[0]), parseInt(indices[1])]);
@@ -88,20 +88,21 @@ function setup(){
 
     socket.on('flipped', function(flipTile) {
         tiles[flipTile.index[0] * 14 + flipTile.index[1]].innerHTML = flipTile.char;
+        tiles[flipTile.index[0] * 14 + flipTile.index[1]].unflipped = false;
     });
 
-    //Why? Maybe update words only would be better?
+
     socket.on('snatch', function(game_state) {
         setPlayers(game_state.players);
     });
 
-    //small letter still there after taking, and box is bigger than tile before
+    //ISSUE: small letter still there after taking, and box is bigger than tile before
     socket.on('taken', function(letter) {
-        tiles.forEach(tile => {
+        tiles.some(tile => {
             if(tile.innerHTML == letter) {
                 tile.className = "tile-taken";
                 console.log("taken");
-                return;
+                return true;
             }
         });
     });
@@ -110,6 +111,7 @@ function setup(){
         socket.emit('start', true);
     };
 
+    //ISSUE? Lockout rapid entries
     document.getElementById("word-field").addEventListener("keyup", function(event){
         event.preventDefault();
         if(event.keyCode == 13){

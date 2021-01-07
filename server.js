@@ -39,11 +39,12 @@ io.on('connection', socket => {
         var ind = Math.floor(Math.random() * game_state.hiddenLetter.length);
         var nextChar = game_state.hiddenLetter.substring(ind, ind + 1);
         game_state.availLetters.push(nextChar);
-        game_state.hiddenLetter = game_state.hiddenLetter.substring(0, ind) + game_state.hiddenLetter.substring(ind);
+        game_state.hiddenLetter = game_state.hiddenLetter.substring(0, ind) + game_state.hiddenLetter.substring(ind + 1);
         io.emit('flipped', {
             index: indices,
             char: nextChar
         });
+        console.log(game_state.hiddenLetter);
         advance();
     });
 
@@ -65,7 +66,8 @@ function advance(){
 }
 
 //checks wiktionary api if word is a word in any language
-//Issue: fake words get accepted
+//Issue: false gets logged 3 times
+//ISSUE: slow
 function exists(word) {
     let url = "https://cors-anywhere.herokuapp.com/https://en.wiktionary.org/w/api.php?action=query&format=json&titles=";
     let real = true;
@@ -86,7 +88,8 @@ function exists(word) {
 //if it came from available letters, else failing the snatch
 //ISSUE: if player has more than one copy of snatched word, it grabs both
 function possible(word) {
-    console.log(exists(word))
+    console.log(exists(word));
+    console.log(word);
     if (word.length < 4 || !exists(word)){
         console.log("fail snatch 1");
         return false;
@@ -102,6 +105,7 @@ function possible(word) {
             }
         });
         console.log("successful snatch");
+        console.log(game_state.availLetters);
         return true;
     }
     console.log("fail snatch 2") //ISSUE: grabbing words breaks when you take a word while many letters on the board. does it grab every copy of available letters?
@@ -110,8 +114,6 @@ function possible(word) {
 
 //Issue:? Chooses first encounter by default. Needs better resolution when multiple
 //Ways to snatch exist?
-
-//Issue: Allows direct snatching of words (need not be anagrams) AND anagrams
 
 //Issue: Implement restrictions (common etymology etc.) or assume you're on a call to deliberate?
 
@@ -123,9 +125,9 @@ function possible(word) {
 function make(attempt) {
     var recurSnatch = [];
 
-    if (isSubset(game_state.availLetters, attempt)) { //ISSUE: taking word from pot removes ALL copies of relevant letters, sometimes...
-        for (let letter of attempt) {                 //ISSUE: some letters on pot not actually available
-            io.emit("taken", letter);                 //ISSUE: doesn't allow combining words/adding sometimes (has to do with hidden letters)
+    if (isSubset(game_state.availLetters, attempt).value) {
+        for (let letter of attempt) {
+            io.emit("taken", letter);                 
         }
         game_state.availLetters = subtract(attempt, game_state.availLetters);
         return {
@@ -136,7 +138,8 @@ function make(attempt) {
 
     for (let player of game_state.players) {
         for (let playerWord of player.words) {
-            if(isSubset(attempt, playerWord)) {
+            let subset = isSubset(attempt, playerWord);
+            if(subset.value && !subset.strict) {
                 let recur = make(subtract(playerWord.split(""), attempt))
                 if(recur.works) {
                     recurSnatch = recur.snatch
@@ -158,23 +161,43 @@ function make(attempt) {
     };
 }
 
-//Linear scan through subset items to find mismatch with superset
-//Idea: sort each first and then do linear time comparison? It's O(nlogn + mlogm) as opposed to O(mn)
-//Maybe useless but since this is called so often
+//Determines whether sub is a subset of sup and whether it as a strict subset
 function isSubset(sup, sub) {
-    for (let item of sub) {
-        if (!sup.includes(item)) {
-            return false;
+    subcounts = {};
+    supcounts = {};
+    for (let item of sub){
+        if(subcounts.hasOwnProperty(item)){
+            subcounts[item] += 1;
+        } else {
+            subcounts[item] = 1;
         }
     }
-    return true;
+    for (let item of sup){
+        if(supcounts.hasOwnProperty(item)){
+            supcounts[item] += 1;
+        } else {
+            supcounts[item] = 1;
+        }
+    }
+    for (let letter in subcounts){
+        if(!supcounts.hasOwnProperty(letter) || supcounts[letter] < subcounts[letter]){
+            return {value : false, strict : false};
+        }
+    }
+    for (let letter in supcounts){
+        if(!subcounts.hasOwnProperty(letter) || supcounts[letter] > subcounts[letter]){
+            return {value : true, strict : false};
+        }
+    }
+    return {value : true, strict : true};
 }
 
 //Removes elements of ths from that
 function subtract(ths, that) {
+    console.log(that);
     for (let item of ths) {
         let ind = that.indexOf(item);
-        that.splice(ind, ind + 1);
+        that.splice(ind, 1);
     }
     return that;
 }
