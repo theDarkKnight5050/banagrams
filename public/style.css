@@ -11,7 +11,7 @@
 
  body {
      height: 90vh;
-     margin-top: 6%;
+     margin-top: 0%;
      padding: 0px;
      font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
      background: var(--main-body-color);
@@ -303,8 +303,8 @@ input[type='range'] {
  }
  
  .tile {
-     width: 80%;
-     height: 70%;
+     width: 60px;
+     height: 60px;
      display: inline-block;
      background: var(--main-content-color);
      background-image: url(grit-fs8.png);
@@ -312,9 +312,10 @@ input[type='range'] {
      border-radius: 4px;
      font-size: 3.3vmin;
      font-weight: 400;
-     margin: 1% 1%;
+     margin: 10px 3px;
      padding-top: 1%;
      text-align: center;
+     line-height: 60px;
      cursor: default;
      font-family: "Spinnaker", Arial, sans-serif;
      text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.9), 0 -1px 1px rgba(255, 255, 255, 0.2);

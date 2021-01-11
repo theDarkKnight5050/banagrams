@@ -18,8 +18,8 @@ var game_state = {
 
 app.use(express.static(__dirname + '/public'));
 
-http.listen(3000, () => {
-  console.log('listening on *:3000');
+http.listen(8080, () => {
+  console.log('listening on *:8080');
 });
 
 io.on('connection', socket => {
@@ -86,7 +86,6 @@ function exists(word) {
 //Checks if word is a valid word in any language. If so, calls make to check for a valid snatch
 //If valid, for each snatched word, finds target player and takes their word away, or does nothing 
 //if it came from available letters, else failing the snatch
-//ISSUE: if player has more than one copy of snatched word, it grabs both
 function possible(word) {
     console.log(exists(word));
     console.log(word);
@@ -100,7 +99,7 @@ function possible(word) {
             for (let player of game_state.players) {
                 if(player.name == snatch.from) {
                     let ind = player.words.indexOf(snatch.word);
-                    player.words.splice(ind, ind + 1);
+                    player.words.splice(ind, 1);
                 }
             }
         });
@@ -108,13 +107,11 @@ function possible(word) {
         console.log(game_state.availLetters);
         return true;
     }
-    console.log("fail snatch 2") //ISSUE: grabbing words breaks when you take a word while many letters on the board. does it grab every copy of available letters?
+    console.log("fail snatch 2");
     return false;
 }
 
-//Issue:? Chooses first encounter by default. Needs better resolution when multiple
-//Ways to snatch exist?
-
+//Issue: Chooses first encounter by default. Needs better resolution when multiple ways to snatch exist?
 //Issue: Implement restrictions (common etymology etc.) or assume you're on a call to deliberate?
 
 //Given an attempted word, checks pile and other players' words for requisite letters

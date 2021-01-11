@@ -1,11 +1,27 @@
 {
-    "name": "multilingual-banagrams",
-    "version": "0.0.1",
-    "description": "cuz why not",
-    "dependencies": {
-        "express": "^4.15.2",
-        "jquery": "^3.5.1",
-        "jsdom": "^16.4.0",
-        "socket.io": "^2.3.0"
-    }
+  "name": "multilingual-bananagrams",
+  "version": "0.1.0",
+  "description": "\"cuz why not\"",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.15.2",
+    "jquery": "^3.5.1",
+    "jsdom": "^16.4.0",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theDarkKnight5050/banagrams.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/theDarkKnight5050/banagrams/issues"
+  },
+  "homepage": "https://github.com/theDarkKnight5050/banagrams#readme"
 }

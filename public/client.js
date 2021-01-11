@@ -11,7 +11,7 @@ function setPlayArea(){
             var tile = document.createElement('div');
             tile.className = "tile";
             tile.id = i + "-" + j;
-            tile.innerHTML = "~";
+            //tile.innerHTML = "~";
             tile.unflipped = true;
             tileArea.appendChild(tile);
             tiles.push(tile);
@@ -21,10 +21,7 @@ function setPlayArea(){
 
 
 //Adds players to player area, gives client special color in their own display
-//Issue: Every time a new player is added it resets the whole thing
-
-//Issue? Word box gets longer for every word added
-//Issue: refreshing page doesn't restart game, but freezes me out of previous player
+//Issue: doesn't remember ip's as players
 function setPlayers(players) {
     var playerArea = document.getElementById("players");
     while (playerArea.firstChild) {
@@ -59,9 +56,11 @@ function setPlayers(players) {
 //Should setPlayArea come before everything else?
 function setup(){
     document.getElementById("add-user").onclick = function() {
-        socket.emit('newPlayer', document.getElementById("username").value);
-        player = document.getElementById("username").value;
-        $("#welcome").modal('hide');
+        if(document.getElementById("username").value != ""){
+            socket.emit('newPlayer', document.getElementById("username").value);
+            player = document.getElementById("username").value;
+            $("#welcome").modal('hide');
+        }
     };
     
     socket.on('newPlayers', function(players) {
@@ -96,11 +95,11 @@ function setup(){
         setPlayers(game_state.players);
     });
 
-    //ISSUE: small letter still there after taking, and box is bigger than tile before
     socket.on('taken', function(letter) {
         tiles.some(tile => {
             if(tile.innerHTML == letter) {
                 tile.className = "tile-taken";
+                tile.innerHTML = null;
                 console.log("taken");
                 return true;
             }
